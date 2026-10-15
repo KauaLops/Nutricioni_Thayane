@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(titulo)">
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title th:text="${titulo} + ' | Painel Thayane-Nutri'">Painel</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600&display=swap">
+  <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body>
+<aside class="sidebar" th:fragment="sidebar(ativo)">
+  <div class="side-brand"><img th:src="@{/images/logo.jpg}" alt="" width="40" height="40"><span>Painel<br><small>Thayane-Nutri</small></span></div>
+  <nav aria-label="Administração">
+    <a th:href="@{/admin}" th:classappend="${ativo=='dashboard'} ? 'active'" th:attr="aria-current=${ativo=='dashboard'} ? 'page'">Visão geral</a>
+    <a th:href="@{/admin/trabalhos}" th:classappend="${ativo=='trabalhos'} ? 'active'" th:attr="aria-current=${ativo=='trabalhos'} ? 'page'">Trabalhos</a>
+    <a th:href="@{/admin/precos}" th:classappend="${ativo=='precos'} ? 'active'" th:attr="aria-current=${ativo=='precos'} ? 'page'">Preços</a>
+    <a th:href="@{/admin/posts}" th:classappend="${ativo=='posts'} ? 'active'" th:attr="aria-current=${ativo=='posts'} ? 'page'">Blog</a>
+    <a th:href="@{/admin/configuracoes}" th:classappend="${ativo=='config'} ? 'active'" th:attr="aria-current=${ativo=='config'} ? 'page'">Configurações</a>
+    <a th:href="@{/}" target="_blank" rel="noopener">Ver site</a>
+  </nav>
+  <form th:action="@{/admin/logout}" method="post"><button type="submit" class="logout">Sair</button></form>
+</aside>
+</body>
+</html>

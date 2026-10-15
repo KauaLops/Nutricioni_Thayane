@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Página não encontrada | Thayane Luíze</title>
+  <link rel="stylesheet" th:href="@{/css/site.css}">
+</head>
+<body class="err-page">
+  <main class="container article">
+    <h1>Ops, algo saiu do caminho</h1>
+    <p th:text="${status != null} ? 'Erro ' + ${status} + '. Não foi possível exibir esta página.' : 'Não foi possível exibir esta página.'">Erro.</p>
+    <p><a class="btn btn-primary" th:href="@{/}">Voltar ao início</a></p>
+  </main>
+</body>
+</html>

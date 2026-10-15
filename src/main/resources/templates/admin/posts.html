@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/admin :: head('Blog')}"></head>
+<body>
+<div class="layout">
+<aside th:replace="~{fragments/admin :: sidebar('posts')}"></aside>
+<main class="content">
+  <h1>Blog</h1>
+  <p class="alert ok" role="status" th:if="${msg}" th:text="${msg}"></p>
+  <section class="panel">
+    <h2 th:text="${form.id == null} ? 'Nova publicação' : 'Editar publicação'">Nova publicação</h2>
+    <form th:action="@{/admin/posts/salvar}" th:object="${form}" method="post" class="form">
+      <input type="hidden" th:field="*{id}">
+      <label for="titulo">Título</label><input id="titulo" th:field="*{titulo}" maxlength="160"><small class="err" th:errors="*{titulo}"></small>
+      <label for="categoria">Categoria</label><input id="categoria" th:field="*{categoria}" maxlength="60"><small class="err" th:errors="*{categoria}"></small>
+      <label for="dataPublicacao">Data de publicação</label><input id="dataPublicacao" th:field="*{dataPublicacao}" type="date"><small class="err" th:errors="*{dataPublicacao}"></small>
+      <label for="imagemUrl">Imagem (caminho ou link, ex.: /images/blog-1.svg)</label><input id="imagemUrl" th:field="*{imagemUrl}" maxlength="500"><small class="err" th:errors="*{imagemUrl}"></small>
+      <label for="resumo">Resumo</label><textarea id="resumo" th:field="*{resumo}" rows="2" maxlength="500"></textarea><small class="err" th:errors="*{resumo}"></small>
+      <label for="conteudo">Texto</label><textarea id="conteudo" th:field="*{conteudo}" rows="10"></textarea><small class="err" th:errors="*{conteudo}"></small>
+      <label class="check"><input type="checkbox" th:field="*{ativo}"> Publicado (visível no site)</label>
+      <div class="row"><button class="btn" type="submit">Salvar publicação</button><a class="btn btn-ghost" th:href="@{/admin/posts}" th:if="${form.id != null}">Cancelar</a></div>
+    </form>
+  </section>
+  <section class="panel">
+    <h2>Publicações</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Título</th><th>Categoria</th><th>Data</th><th>Status</th><th>Ações</th></tr></thead>
+      <tbody>
+        <tr th:each="p : ${itens}">
+          <td th:text="${p.titulo}">Título</td><td th:text="${p.categoria}">Cat</td>
+          <td th:text="${#temporals.format(p.dataPublicacao,'dd/MM/yyyy')}">01/01/2026</td>
+          <td><span class="pill" th:classappend="${p.ativo} ? 'on' : 'off'" th:text="${p.ativo} ? 'Publicado' : 'Oculto'">Publicado</span></td>
+          <td class="actions">
+            <a class="btn btn-sm btn-ghost" th:href="@{/admin/posts(editar=${p.id})}">Editar</a>
+            <form th:action="@{/admin/posts/{id}/excluir(id=${p.id})}" method="post" data-confirm="Excluir esta publicação?"><button class="btn btn-sm btn-danger" type="submit">Excluir</button></form>
+          </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(itens)}"><td colspan="5">Nenhuma publicação.</td></tr>
+      </tbody></table></div>
+  </section>
+</main>
+</div>
+<script th:src="@{/js/admin.js}" defer></script>
+</body>
+</html>

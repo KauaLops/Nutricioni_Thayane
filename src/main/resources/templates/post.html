@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/site :: head(${post.titulo} + ' | Thayane Luíze', ${post.resumo})}"></head>
+<body>
+<header th:replace="~{fragments/site :: header}"></header>
+<main class="container article">
+  <p><a class="more" th:href="@{/#blog}">Voltar ao blog</a></p>
+  <p class="meta"><span class="tag" th:text="${post.categoria}">Categoria</span> <time th:datetime="${post.dataPublicacao}" th:text="${#temporals.format(post.dataPublicacao,'dd/MM/yyyy')}">01/01/2026</time></p>
+  <h1 th:text="${post.titulo}">Título</h1>
+  <img th:src="${post.imagemUrl}" th:alt="'Ilustração do artigo: ' + ${post.titulo}" width="800" height="450">
+  <div class="article-text" th:text="${post.conteudo}">Texto</div>
+  <p><a class="btn btn-primary" th:href="@{/#agendamento}">Agende sua consulta</a></p>
+</main>
+<footer th:replace="~{fragments/site :: footer}"></footer>
+<script th:src="@{/js/site.js}" defer></script>
+</body>
+</html>

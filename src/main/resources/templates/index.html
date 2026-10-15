@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/site :: head('Thayane Luíze | Nutricionista', 'Portfólio profissional da nutricionista Thayane Luíze Lopes de Souza Alcântara.')}"></head>
+<body>
+<a class="skip" href="#conteudo">Pular para o conteúdo</a>
+<header th:replace="~{fragments/site :: header}"></header>
+
+<main id="conteudo">
+  <!-- INÍCIO -->
+  <section id="inicio" class="hero" aria-labelledby="hero-titulo">
+    <div class="container hero-grid">
+      <div class="hero-text">
+        <p class="crn-badge"><svg th:replace="~{fragments/icons :: badge}"></svg> CRN <span th:text="${contato.crn}">49735</span></p>
+        <h1 id="hero-titulo">Thayane Luíze <span>Nutricionista</span></h1>
+        <p class="lead">Alimentação saudável pensada para a sua rotina, sem radicalismos e com acompanhamento de perto.</p>
+        <p>Sou Thayane Luíze Lopes de Souza Alcântara. Meu atendimento une ciência e cuidado para que você tenha uma relação mais leve com a comida, mais energia e qualidade de vida.</p>
+        <div class="actions">
+          <a class="btn btn-primary" th:href="@{/#agendamento}" data-scroll="agendamento">Agendar Consulta</a>
+          <a class="btn btn-outline" th:href="@{/#trabalho}" data-scroll="trabalho">Conheça meu trabalho</a>
+        </div>
+      </div>
+      <figure class="hero-photo">
+        <img th:src="@{/images/hero.jpg}" alt="Nutricionista Thayane Luíze sentada à mesa de atendimento, sorrindo" width="750" height="1000" fetchpriority="high">
+      </figure>
+    </div>
+  </section>
+
+  <!-- TRABALHO -->
+  <section id="trabalho" class="section section-soft" aria-labelledby="trabalho-titulo">
+    <div class="container">
+      <div class="section-head reveal">
+        <h2 id="trabalho-titulo">Meu trabalho</h2>
+        <p>Formação, vivências e atuação que sustentam um cuidado nutricional baseado em ciência.</p>
+      </div>
+      <div class="grid-3">
+        <article class="card work reveal" th:each="t : ${trabalhos}">
+          <img th:src="${t.imagemUrl}" th:alt="${t.titulo}" loading="lazy" width="400" height="300">
+          <div class="card-body">
+            <span class="tag" th:text="${t.categoria}">Categoria</span>
+            <h3 th:text="${t.titulo}">Título</h3>
+            <p th:text="${t.descricao}">Descrição</p>
+          </div>
+        </article>
+      </div>
+      <p class="empty" th:if="${#lists.isEmpty(trabalhos)}">Em breve, novos trabalhos por aqui.</p>
+    </div>
+  </section>
+
+  <!-- AGENDAMENTO -->
+  <section id="agendamento" class="section bg-folhas" aria-labelledby="agend-titulo">
+    <div class="container agend-grid">
+      <div class="reveal">
+        <h2 id="agend-titulo">Agende sua consulta</h2>
+        <p>Conte um pouco sobre você e escolha o melhor dia e horário. Entraremos em contato para confirmar o atendimento.</p>
+        <ul class="checks">
+          <li>Atendimento individualizado</li>
+          <li>Plano alimentar para a sua rotina</li>
+          <li>Retorno com acompanhamento</li>
+        </ul>
+      </div>
+      <form id="form-agendamento" class="form-card reveal" novalidate>
+        <div class="field"><label for="ag-nome">Nome completo</label><input id="ag-nome" name="nome" type="text" maxlength="120" required autocomplete="name"><small class="err" data-for="nome"></small></div>
+        <div class="field two">
+          <div><label for="ag-email">E-mail</label><input id="ag-email" name="email" type="email" maxlength="160" required autocomplete="email"><small class="err" data-for="email"></small></div>
+          <div><label for="ag-tel">Telefone</label><input id="ag-tel" name="telefone" type="tel" maxlength="20" required autocomplete="tel" placeholder="(83) 90000-0000"><small class="err" data-for="telefone"></small></div>
+        </div>
+        <div class="field two">
+          <div><label for="ag-data">Data desejada</label><input id="ag-data" name="data" type="date" required><small class="err" data-for="data"></small></div>
+          <div><label for="ag-hora">Horário desejado</label>
+            <select id="ag-hora" name="horario" required>
+              <option value="">Selecione</option>
+              <option th:each="h : ${#numbers.sequence(8, 18)}" th:value="${#numbers.formatInteger(h,2)} + ':00'" th:text="${#numbers.formatInteger(h,2)} + ':00'">08:00</option>
+            </select><small class="err" data-for="horario"></small></div>
+        </div>
+        <div class="field"><label for="ag-tipo">Tipo de atendimento</label>
+          <select id="ag-tipo" name="tipo" required>
+            <option value="">Selecione</option>
+            <option th:each="s : ${servicos}" th:value="${s.nome}" th:text="${s.nome}">Consulta nutricional</option>
+            <option th:if="${#lists.isEmpty(servicos)}" value="Consulta nutricional">Consulta nutricional</option>
+          </select><small class="err" data-for="tipo"></small></div>
+        <div class="field"><label for="ag-msg">Mensagem ou observação <span class="opt">(opcional)</span></label><textarea id="ag-msg" name="mensagem" rows="4" maxlength="1000"></textarea><small class="err" data-for="mensagem"></small></div>
+        <button class="btn btn-primary" type="submit" id="ag-enviar">Solicitar Agendamento</button>
+        <p id="ag-status" class="status" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+
+  <!-- CONTATO -->
+  <section id="contato" class="section section-green" aria-labelledby="contato-titulo">
+    <div class="container">
+      <div class="section-head reveal">
+        <h2 id="contato-titulo">Entre em contato</h2>
+        <p>Escolha o canal que for mais confortável para você.</p>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-card reveal">
+          <svg th:replace="~{fragments/icons :: whatsapp}"></svg>
+          <h3>WhatsApp</h3><p th:text="${contato.whatsapp}">+55 83 9830-1634</p>
+          <a class="btn btn-gold" th:href="${contato.whatsappLink}" target="_blank" rel="noopener noreferrer">Chamar no WhatsApp</a>
+        </div>
+        <div class="contact-card reveal">
+          <svg th:replace="~{fragments/icons :: instagram}"></svg>
+          <h3>Instagram</h3><p th:text="'@' + ${contato.instagramUsuario}">@thayaneluize.nutri</p>
+          <a class="btn btn-gold" th:href="${contato.instagramLink}" target="_blank" rel="noopener noreferrer">Ver Instagram</a>
+        </div>
+        <div class="contact-card reveal">
+          <svg th:replace="~{fragments/icons :: mail}"></svg>
+          <h3>E-mail</h3><p class="wrap" th:text="${contato.email}">email@exemplo.com</p>
+          <a class="btn btn-gold" th:href="'mailto:' + ${contato.email}">Enviar e-mail</a>
+        </div>
+
+        <div class="contact-card reveal" th:each="r : ${redes}">
+          <svg th:replace="~{fragments/icons :: link}"></svg>
+          <h3 th:text="${r.nome}">Rede</h3><p>Siga e acompanhe</p>
+          <a class="btn btn-gold" th:href="${r.url}" target="_blank" rel="noopener noreferrer">Acessar</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PREÇOS -->
+  <section id="precos" class="section bg-folhas" aria-labelledby="precos-titulo">
+    <div class="container">
+      <div class="section-head reveal">
+        <h2 id="precos-titulo">Serviços e valores</h2>
+        <p>Veja os serviços e escolha o que combina com o seu momento.</p>
+      </div>
+      <div class="carousel reveal" id="carousel" th:unless="${#lists.isEmpty(servicos)}" role="region" aria-roledescription="carrossel" aria-label="Serviços e preços">
+        <div class="carousel-stage">
+          <div class="ring" id="ring">
+            <article class="price-card" th:each="s : ${servicos}">
+              <h3 th:text="${s.nome}">Consulta Nutricional</h3>
+              <p class="price"><span>R$</span> <b th:text="${#numbers.formatDecimal(s.preco,1,'POINT',2,'COMMA')}">180,00</b></p>
+              <p class="desc" th:text="${s.descricao}">Descrição</p>
+              <ul class="checks"><li th:each="b : ${s.listaBeneficios}" th:text="${b}">Benefício</li></ul>
+              <a class="btn btn-primary" th:href="@{/#agendamento}" data-scroll="agendamento" th:attr="data-servico=${s.nome}" th:aria-label="'Agendar ' + ${s.nome}">Agendar</a>
+            </article>
+          </div>
+        </div>
+        <div class="carousel-controls">
+          <button type="button" id="prev" aria-label="Serviço anterior">‹</button>
+          <button type="button" id="next" aria-label="Próximo serviço">›</button>
+        </div>
+      </div>
+      <p class="empty" th:if="${#lists.isEmpty(servicos)}">Os valores serão divulgados em breve. Fale comigo pelo WhatsApp.</p>
+    </div>
+  </section>
+
+  <!-- BLOG -->
+  <section id="blog" class="section section-soft" aria-labelledby="blog-titulo">
+    <div class="container">
+      <div class="section-head reveal">
+        <h2 id="blog-titulo">Blog</h2>
+        <p>Conteúdos simples e confiáveis para cuidar melhor da alimentação.</p>
+      </div>
+      <div class="grid-3">
+        <article class="card post reveal" th:each="p : ${posts}">
+          <img th:src="${p.imagemUrl}" th:alt="'Ilustração do artigo: ' + ${p.titulo}" loading="lazy" width="400" height="225">
+          <div class="card-body">
+            <p class="meta"><span class="tag" th:text="${p.categoria}">Categoria</span> <time th:datetime="${p.dataPublicacao}" th:text="${#temporals.format(p.dataPublicacao,'dd/MM/yyyy')}">01/01/2026</time></p>
+            <h3 th:text="${p.titulo}">Título</h3>
+            <p th:text="${p.resumo}">Resumo</p>
+            <a class="more" th:href="@{/blog/{id}(id=${p.id})}" th:aria-label="'Leia mais: ' + ${p.titulo}">Leia mais</a>
+          </div>
+        </article>
+      </div>
+      <p class="empty" th:if="${#lists.isEmpty(posts)}">Novos artigos em breve.</p>
+    </div>
+  </section>
+</main>
+
+<footer th:replace="~{fragments/site :: footer}"></footer>
+<script th:src="@{/js/site.js}" defer></script>
+</body>
+</html>

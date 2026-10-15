@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(titulo, descricao)">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title th:text="${titulo}">Thayane Luíze | Nutricionista</title>
+  <meta name="description" th:content="${descricao}" content="Portfólio profissional da nutricionista Thayane Luíze Lopes de Souza Alcântara.">
+  <meta name="theme-color" content="#14391f">
+  <meta name="_csrf" th:content="${_csrf.token}" content="">
+  <meta name="_csrf_header" th:content="${_csrf.headerName}" content="X-CSRF-TOKEN">
+  <link rel="icon" type="image/jpeg" th:href="@{/images/logo.jpg}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Jost:wght@400;500;600&display=swap">
+  <link rel="stylesheet" th:href="@{/css/site.css}">
+</head>
+<body>
+<header class="site-header" th:fragment="header">
+  <div class="container bar">
+    <a class="brand" th:href="@{/#inicio}" data-scroll="inicio" aria-label="Thayane Luíze, nutricionista — voltar ao início">
+      <img th:src="@{/images/logo.jpg}" alt="" width="44" height="44">
+      <span>Thayane Luíze<small>Nutricionista</small></span>
+    </a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="menu" aria-label="Abrir menu"><span></span><span></span><span></span></button>
+    <nav id="menu" class="nav" aria-label="Principal">
+      <a th:href="@{/#inicio}" data-scroll="inicio">Início</a>
+      <a th:href="@{/#agendamento}" data-scroll="agendamento">Agendamento</a>
+      <a th:href="@{/#contato}" data-scroll="contato">Contato</a>
+      <a th:href="@{/#precos}" data-scroll="precos">Preços</a>
+      <a th:href="@{/#blog}" data-scroll="blog">Blog</a>
+      <a class="btn btn-gold nav-cta" th:href="@{/#agendamento}" data-scroll="agendamento">Agendar Consulta</a>
+    </nav>
+  </div>
+</header>
+
+<footer class="site-footer" th:fragment="footer">
+  <div class="container foot-grid">
+    <div>
+      <img th:src="@{/images/logo.jpg}" alt="Logotipo Thayane Luíze Nutricionista" width="150" class="foot-logo">
+      <p class="foot-name">Thayane Luíze Lopes de Souza Alcântara</p>
+      <p>Nutricionista · CRN <span th:text="${contato.crn}">49735</span></p>
+    </div>
+    <div>
+      <h2>Links rápidos</h2>
+      <ul class="plain">
+        <li><a th:href="@{/#inicio}" data-scroll="inicio">Início</a></li>
+        <li><a th:href="@{/#agendamento}" data-scroll="agendamento">Agendamento</a></li>
+        <li><a th:href="@{/#contato}" data-scroll="contato">Contato</a></li>
+        <li><a th:href="@{/#precos}" data-scroll="precos">Preços</a></li>
+        <li><a th:href="@{/#blog}" data-scroll="blog">Blog</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2>Redes sociais</h2>
+      <ul class="plain">
+        <li><a th:href="${contato.instagramLink}" target="_blank" rel="noopener noreferrer"><svg th:replace="~{fragments/icons :: instagram}"></svg> Instagram</a></li>
+        <li><a th:href="${contato.whatsappLink}" target="_blank" rel="noopener noreferrer"><svg th:replace="~{fragments/icons :: whatsapp}"></svg> WhatsApp</a></li>
+        <li><a th:href="'mailto:' + ${contato.email}"><svg th:replace="~{fragments/icons :: mail}"></svg> E-mail</a></li>
+        <li th:each="r : ${redes}"><a th:href="${r.url}" target="_blank" rel="noopener noreferrer"><svg th:replace="~{fragments/icons :: link}"></svg> <span th:text="${r.nome}">Rede</span></a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="container foot-bottom">
+    <p>© 2026 Thayane Luíze Lopes de Souza Alcântara. Todos os direitos reservados.</p>
+    <p><a th:href="@{/termos}">Termos de Serviço</a> · <a th:href="@{/privacidade}">Política de Privacidade</a></p>
+  </div>
+</footer>
+</body>
+</html>

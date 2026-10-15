@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/admin :: head('Visão geral')}"></head>
+<body>
+<div class="layout">
+<aside th:replace="~{fragments/admin :: sidebar('dashboard')}"></aside>
+<main class="content">
+  <h1>Olá, bem-vinda!</h1>
+  <p class="sub">Gerencie o conteúdo do site. As alterações aparecem na página pública imediatamente.</p>
+  <div class="stats">
+    <a class="stat" th:href="@{/admin/trabalhos}"><b th:text="${qtTrabalhos}">0</b><span>Trabalhos</span></a>
+    <a class="stat" th:href="@{/admin/precos}"><b th:text="${qtServicos}">0</b><span>Serviços e preços</span></a>
+    <a class="stat" th:href="@{/admin/posts}"><b th:text="${qtPosts}">0</b><span>Publicações do blog</span></a>
+    <a class="stat" th:href="@{/admin/configuracoes}"><b>Contato</b><span>Redes e informações</span></a>
+  </div>
+</main>
+</div>
+<script th:src="@{/js/admin.js}" defer></script>
+</body>
+</html>

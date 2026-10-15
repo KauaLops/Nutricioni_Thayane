@@ -1,0 +1,12 @@
+# Opcional: PostgreSQL local. Uso: defina DB_PASSWORD no .env e rode `docker compose up -d`
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: thayane_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?defina DB_PASSWORD no .env}
+    ports: ["5432:5432"]
+    volumes: [pgdata:/var/lib/postgresql/data]
+volumes:
+  pgdata:

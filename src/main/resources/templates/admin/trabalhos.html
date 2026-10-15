@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/admin :: head('Trabalhos')}"></head>
+<body>
+<div class="layout">
+<aside th:replace="~{fragments/admin :: sidebar('trabalhos')}"></aside>
+<main class="content">
+  <h1>Trabalhos</h1>
+  <p class="alert ok" role="status" th:if="${msg}" th:text="${msg}"></p>
+  <section class="panel">
+    <h2 th:text="${form.id == null} ? 'Novo trabalho' : 'Editar trabalho'">Novo trabalho</h2>
+    <form th:action="@{/admin/trabalhos/salvar}" th:object="${form}" method="post" class="form">
+      <input type="hidden" th:field="*{id}">
+      <label for="titulo">Título</label><input id="titulo" th:field="*{titulo}" maxlength="160"><small class="err" th:errors="*{titulo}"></small>
+      <label for="categoria">Categoria</label><input id="categoria" th:field="*{categoria}" maxlength="60"><small class="err" th:errors="*{categoria}"></small>
+      <label for="imagemUrl">Imagem (caminho ou link, ex.: /images/hero.jpg)</label><input id="imagemUrl" th:field="*{imagemUrl}" maxlength="500"><small class="err" th:errors="*{imagemUrl}"></small>
+      <label for="descricao">Descrição</label><textarea id="descricao" th:field="*{descricao}" rows="3" maxlength="1000"></textarea><small class="err" th:errors="*{descricao}"></small>
+      <label class="check"><input type="checkbox" th:field="*{ativo}"> Visível no site</label>
+      <div class="row"><button class="btn" type="submit">Salvar trabalho</button><a class="btn btn-ghost" th:href="@{/admin/trabalhos}" th:if="${form.id != null}">Cancelar</a></div>
+    </form>
+  </section>
+  <section class="panel">
+    <h2>Cadastrados</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Título</th><th>Categoria</th><th>Status</th><th>Ações</th></tr></thead>
+      <tbody>
+        <tr th:each="t : ${itens}">
+          <td th:text="${t.titulo}">Título</td><td th:text="${t.categoria}">Cat</td>
+          <td><span class="pill" th:classappend="${t.ativo} ? 'on' : 'off'" th:text="${t.ativo} ? 'Visível' : 'Oculto'">Visível</span></td>
+          <td class="actions">
+            <a class="btn btn-sm btn-ghost" th:href="@{/admin/trabalhos(editar=${t.id})}">Editar</a>
+            <form th:action="@{/admin/trabalhos/{id}/excluir(id=${t.id})}" method="post" data-confirm="Excluir este trabalho?"><button class="btn btn-sm btn-danger" type="submit">Excluir</button></form>
+          </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(itens)}"><td colspan="4">Nenhum trabalho cadastrado.</td></tr>
+      </tbody></table></div>
+  </section>
+</main>
+</div>
+<script th:src="@{/js/admin.js}" defer></script>
+</body>
+</html>

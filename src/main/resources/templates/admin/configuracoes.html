@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/admin :: head('Configurações')}"></head>
+<body>
+<div class="layout">
+<aside th:replace="~{fragments/admin :: sidebar('config')}"></aside>
+<main class="content">
+  <h1>Configurações</h1>
+  <p class="alert ok" role="status" th:if="${msg}" th:text="${msg}"></p>
+  <section class="panel">
+    <h2>Informações de contato</h2>
+    <form th:action="@{/admin/configuracoes/contato}" th:object="${contatoForm}" method="post" class="form">
+      <label for="email">E-mail</label><input id="email" th:field="*{email}" type="email"><small class="err" th:errors="*{email}"></small>
+      <label for="whatsapp">WhatsApp (com DDI e DDD)</label><input id="whatsapp" th:field="*{whatsapp}"><small class="err" th:errors="*{whatsapp}"></small>
+      <label for="telefone">Telefone</label><input id="telefone" th:field="*{telefone}"><small class="err" th:errors="*{telefone}"></small>
+      <label for="instagram">Instagram (sem @)</label><input id="instagram" th:field="*{instagram}"><small class="err" th:errors="*{instagram}"></small>
+      <label for="crn">CRN</label><input id="crn" th:field="*{crn}"><small class="err" th:errors="*{crn}"></small>
+      <div class="row"><button class="btn" type="submit">Salvar contato</button></div>
+    </form>
+  </section>
+  <section class="panel">
+    <h2 th:text="${redeForm.id == null} ? 'Nova rede social' : 'Editar rede social'">Nova rede social</h2>
+    <form th:action="@{/admin/configuracoes/redes/salvar}" th:object="${redeForm}" method="post" class="form">
+      <input type="hidden" th:field="*{id}">
+      <label for="rnome">Nome (ex.: TikTok, LinkedIn)</label><input id="rnome" th:field="*{nome}"><small class="err" th:errors="*{nome}"></small>
+      <label for="rurl">Link (https://...)</label><input id="rurl" th:field="*{url}" type="url"><small class="err" th:errors="*{url}"></small>
+      <label class="check"><input type="checkbox" th:field="*{ativo}"> Visível no site</label>
+      <div class="row"><button class="btn" type="submit">Salvar rede</button><a class="btn btn-ghost" th:href="@{/admin/configuracoes}" th:if="${redeForm.id != null}">Cancelar</a></div>
+    </form>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Rede</th><th>Link</th><th>Status</th><th>Ações</th></tr></thead>
+      <tbody>
+        <tr th:each="r : ${itens}">
+          <td th:text="${r.nome}">Rede</td><td th:text="${r.url}">https://</td>
+          <td><span class="pill" th:classappend="${r.ativo} ? 'on' : 'off'" th:text="${r.ativo} ? 'Visível' : 'Oculta'">Visível</span></td>
+          <td class="actions">
+            <a class="btn btn-sm btn-ghost" th:href="@{/admin/configuracoes(editarRede=${r.id})}">Editar</a>
+            <form th:action="@{/admin/configuracoes/redes/{id}/excluir(id=${r.id})}" method="post" data-confirm="Remover esta rede?"><button class="btn btn-sm btn-danger" type="submit">Excluir</button></form>
+          </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(itens)}"><td colspan="4">Nenhuma rede adicional cadastrada.</td></tr>
+      </tbody></table></div>
+  </section>
+</main>
+</div>
+<script th:src="@{/js/admin.js}" defer></script>
+</body>
+</html>

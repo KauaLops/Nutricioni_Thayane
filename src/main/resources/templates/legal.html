@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/site :: head(${tipo == 'termos' ? 'Termos de Serviço | Thayane Luíze' : 'Política de Privacidade | Thayane Luíze'}, 'Informações legais do site da nutricionista Thayane Luíze.')}"></head>
+<body>
+<header th:replace="~{fragments/site :: header}"></header>
+<main class="container article">
+  <div th:if="${tipo == 'termos'}">
+    <h1>Termos de Serviço</h1>
+    <p>Este site apresenta os serviços da nutricionista Thayane Luíze Lopes de Souza Alcântara (CRN 49735). O conteúdo do blog tem caráter informativo e não substitui consulta nutricional individualizada.</p>
+    <p>O formulário de agendamento é uma solicitação: o atendimento só é confirmado após contato da profissional. Valores e condições podem ser alterados a qualquer momento.</p>
+  </div>
+  <div th:if="${tipo == 'privacidade'}">
+    <h1>Política de Privacidade</h1>
+    <p>Os dados informados no formulário de agendamento (nome, e-mail, telefone, data, horário e mensagem) são usados somente para entrar em contato e organizar o atendimento, em conformidade com a LGPD.</p>
+    <p>Não vendemos nem compartilhamos seus dados com terceiros. Para solicitar acesso, correção ou exclusão, fale conosco pelo e-mail do site.</p>
+  </div>
+  <p><a class="btn btn-primary" th:href="@{/}">Voltar ao início</a></p>
+</main>
+<footer th:replace="~{fragments/site :: footer}"></footer>
+<script th:src="@{/js/site.js}" defer></script>
+</body>
+</html>
